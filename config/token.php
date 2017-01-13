@@ -1,4 +1,0 @@
-<?php
-return [
-	'fb_page' => 'EAAaHzaLPJyYBANyjMEYKinEnIEgzW3l6mS7YOZC2fr2aJqXvHkVWrYZByg8qlxOpfm1WXEZCaZCXVqybiQv8wKG0GdSK1yrgHRVMd45ZADjmOGZANDLglG89FwnZA4rZBSCMalc28EyjKMYko5rJbTfFgC0AhdhBOuiipWC1ZAbcfggZDZD'
-];

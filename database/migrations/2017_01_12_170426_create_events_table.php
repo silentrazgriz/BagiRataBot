@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBagiRataTable extends Migration
+class CreateEventsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,17 +13,15 @@ class CreateBagiRataTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('br_events', function (Blueprint $table) {
+		Schema::create('events', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('fbId');
-			$table->string('event');
+			$table->string('name');
 			$table->text('members');
-			$table->text('purchases');
-			$table->text('payments');
-			$table->boolean('isActive')->default(false);
+			$table->text('transactions');
 			$table->timestamps();
 
-			$table->unique(array('fbId', 'event'));
+			$table->unique(array('fbId', 'name'));
 		});
 	}
 
@@ -34,6 +32,6 @@ class CreateBagiRataTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('br_events');
+		Schema::dropIfExists('events');
 	}
 }

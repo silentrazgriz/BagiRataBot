@@ -6,27 +6,65 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-	protected $table = 'br_events';
-	protected $fillable = ['fbId', 'event', 'members', 'purchases', 'payments', 'isActive'];
+	/*
+	 * Member json format
+	 * ['member1', 'member2', ...]
+	 *
+	 * Transaction json format
+	 * [
+	 *  {
+	 *    'info': 'lunch at yoshinoya',
+	 *    'amount': 4000,
+	 *    'payments': [
+	 *      {
+	 *        'member': 'member1',
+	 *        'amount': 2000
+	 *      },
+	 *      ...
+	 *    ]
+	 *  },
+	 *  ...
+	 * ]
+	 */
+	protected $table = 'events';
+	protected $fillable = ['fbId', 'name', 'members', 'transactions'];
 	public $timestamps = true;
 
-	public function totalPurchase() {
-		$totalPurchase = 0;
-		foreach ($this->purchases as $purchase) {
-			$totalPurchase += $purchase->amount;
-		}
-		return $totalPurchase;
+	public function getMembersAttribute($value) {
+		return json_decode($value);
+	}
+
+	public function setMembersAttribute($value) {
+		$this->attributes['members'] = json_encode($value);
+	}
+
+	public function getTransactionsAttribute($value) {
+		return json_decode($value);
+	}
+
+	public function setTransactionsAttribute($value) {
+		$this->attributes['transactions'] = json_encode($value);
 	}
 
 	public function totalPayment() {
-		$totalPayment = 0;
-		foreach ($this->payments as $payment) {
-			$totalPayment += $payment->amount;
+		$total = 0;
+		foreach ($this->transactions as $transaction) {
+			foreach ($transaction->payments as $payment) {
+				$total += $payment->amount;
+			}
 		}
-		return $totalPayment;
+		return $total;
 	}
 
-	public function averagePurchase() {
+	public function totalPurchase() {
+		$total = 0;
+		foreach ($this->transactions as $transaction) {
+			$total += $transaction->amount;
+		}
+		return $total;
+	}
+
+	public function purchasePerMember() {
 		return $this->totalPurchase() / max(count($this->members), 1);
 	}
 
@@ -41,7 +79,7 @@ class Event extends Model
 			foreach ($paymentData as &$data) {
 				if ($data['member'] == $payment->member) {
 					$data['payment'] += $payment->amount;
-					$data['diff'] = $data['payment'] - $this->averagePurchase();
+					$data['diff'] = $data['payment'] - $this->purchasePerMember();
 					$data['transaction']++;
 				}
 			}
@@ -57,29 +95,5 @@ class Event extends Model
 			return 0;
 		}
 		return ($a['diff'] < $b['diff']) ? -1 : 1;
-	}
-
-	public function getMembersAttribute($value) {
-		return json_decode($value);
-	}
-
-	public function setMembersAttribute($value) {
-		$this->attributes['members'] = json_encode($value);
-	}
-
-	public function getPurchasesAttribute($value) {
-		return json_decode($value);
-	}
-
-	public function setPurchasesAttribute($value) {
-		$this->attributes['purchases'] = json_encode($value);
-	}
-
-	public function getPaymentsAttribute($value) {
-		return json_decode($value);
-	}
-
-	public function setPaymentsAttribute($value) {
-		$this->attributes['payments'] = json_encode($value);
 	}
 }

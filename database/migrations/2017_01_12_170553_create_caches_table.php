@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResponseListsTable extends Migration
+class CreateCachesTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,9 +13,13 @@ class CreateResponseListsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('response_lists', function (Blueprint $table) {
+		Schema::create('caches', function (Blueprint $table) {
 			$table->increments('id');
-			$table->text('response');
+			$table->string('fbId')->unique();
+			$table->string('userProfile');
+			$table->string('command');
+			$table->string('messages');
+			$table->string('value');
 			$table->timestamps();
 		});
 	}
@@ -27,6 +31,6 @@ class CreateResponseListsTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('response_lists');
+		Schema::dropIfExists('caches');
 	}
 }

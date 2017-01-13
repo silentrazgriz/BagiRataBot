@@ -8,9 +8,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Core\BagiRata\BotManager;
-use App\Models\ResponseList;
+use App\Core\BotManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
@@ -18,13 +18,13 @@ class WebhookController extends Controller
 		$data = $request->all();
 		if ($data['hub_mode'] === 'subscribe' &&	$data['hub_verify_token'] === 'absoluteforces') {
 			return response($data['hub_challenge'], 200);
-		} else {
-			abort(403, json_encode($data));
 		}
+
+		return abort(403);
 	}
 	
 	public function receiveMessage(Request $request) {
-		ResponseList::create(['response' => $request->getContent()]);
+		Log::info('Message received', ['content' => $request->getContent()]);
 		
 		try {
 			$data = json_decode($request->getContent());
@@ -39,13 +39,9 @@ class WebhookController extends Controller
 				}
 			}
 		} catch (\Exception $e) {
-			ResponseList::create(['response' => $e->getMessage()]);
+			Log::error('Error while receiving message', ['code' => $e->getCode(), 'message' => $e->getMessage()]);
 		}
 		
 		return response('Message received', 200);
-	}
-	
-	public function processMessage(Request $request) {
-		
 	}
 }

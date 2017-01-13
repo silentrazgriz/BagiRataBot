@@ -89,9 +89,4 @@ class Events
 			SendMessage::callApi($fbId, "Seluruh event berhasil dihapus");
 		});
 	}
-
-	public static function getActiveEvent($fbId)
-	{
-		return Event::where('fbId', $fbId)->where('isActive', true)->first();
-	}
 }

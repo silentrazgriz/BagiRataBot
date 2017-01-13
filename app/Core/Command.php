@@ -1,39 +1,28 @@
 <?php
-namespace App\Core\BagiRata;
+namespace App\Core;
 
-use App\Core\BagiRata\Actions\Events;
+use App\Core\Actions\IAction;
 
 class Command
 {
-	public $name, $instance, $function, $needActiveEvent, $argumentsNumber, $errorArgumentsMessage, $allowMultipleValues;
+	/*
+	 * Temporary values
+	 *
+	 *
+	 */
+	public $name, $action, $numberOfArguments;
 
-	public function __construct($name, $instance, $function, $needActiveEvent, $argumentsNumber, $errorArgumentsMessage = '', $allowMultipleValues = false) {
+	public function __construct($name, IAction $action) {
 		$this->name = $name;
-		$this->instance = $instance;
-		$this->function = $function;
-		$this->needActiveEvent = $needActiveEvent;
-		$this->allowMultipleValues = $allowMultipleValues;
-		$this->argumentsNumber = $argumentsNumber;
-		$this->errorArgumentsMessage = $errorArgumentsMessage;
+		$this->action = $action;
  	}
 
-	public function run($fbId, array $arguments) {
-		if (count($arguments) < $this->argumentsNumber) {
-			SendMessage::callApi($fbId, $this->errorArgumentsMessage." belum disertakan, mohon coba lagi");
-		} else {
-			$obj = new $this->instance;
-			call_user_func_array(array($obj, $this->function), array($fbId, $arguments));
-		}
+	public function invoke($fbId) {
+		echo 'calling method';
+		$this->action->run($fbId);
 	}
 
 	public function isCommand($keyword) {
 		return $keyword == $this->name;
-	}
-
-	public function checkActiveEvent($fbId) {
-		if ($this->needActiveEvent && !Events::getActiveEvent($fbId)) {
-			return false;
-		}
-		return true;
 	}
 }
