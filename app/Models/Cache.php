@@ -1,5 +1,5 @@
 <?php
-namespace App\Models\BagiRata;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +21,7 @@ class Cache extends Model
 	 * ]
 	 */
 	protected $table = 'caches';
-	protected $fillable = ['fbId', 'userProfile', 'command', 'messages', 'value'];
+	protected $fillable = ['fbId', 'userProfile', 'command', 'messages', 'value', 'currentEvent'];
 	public $timestamps = true;
 
 	public function getUserProfileAttribute($value) {

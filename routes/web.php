@@ -11,12 +11,19 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$app->get("/", function () use ($app) {
+  return $app->version();
 });
 
-$app->group(['prefix' => 'messenger'], function() use ($app) {
-	$app->get('subscribe', 'WebhookController@subscribe');
-	$app->post('webhook', 'WebhookController@receiveMessage');
-	$app->post('process', 'WebhookController@processMessage');
+$app->get("debug", function () use ($app) {
+	$cache = \App\Core\CacheManager::get("1139072729524249");
+	echo "<pre>";
+	print_r($cache->userProfile);
+	echo "$cache->";
+});
+
+$app->group(["prefix" => "messenger"], function() use ($app) {
+	$app->get("subscribe", "WebhookController@subscribe");
+	$app->post("webhook", "WebhookController@receiveMessage");
+	$app->post("process", "WebhookController@processMessage");
 });

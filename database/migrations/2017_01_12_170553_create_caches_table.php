@@ -17,6 +17,7 @@ class CreateCachesTable extends Migration
 			$table->increments('id');
 			$table->string('fbId')->unique();
 			$table->string('userProfile');
+			$table->string('currentEvent');
 			$table->string('command');
 			$table->string('messages');
 			$table->string('value');

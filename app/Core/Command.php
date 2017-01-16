@@ -18,7 +18,6 @@ class Command
  	}
 
 	public function invoke($fbId) {
-		echo 'calling method';
 		$this->action->run($fbId);
 	}
 
