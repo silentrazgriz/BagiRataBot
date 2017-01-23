@@ -13,7 +13,7 @@ class EventChooseAction implements IAction
 	{
 		$cache = CacheManager::get($fbId);
 		if ($cache->command == "event_choose") {
-			$chosenEvent = end($cache->messages);
+			$chosenEvent = $cache->messages[count($cache->messages) - 1];
 			if (Event::where("fbId", $fbId)->where("name", $chosenEvent)->count() > 0) {
 				// Set current event if there is matching event with user input
 				CacheManager::setCurrentEvent($fbId, $chosenEvent);
@@ -26,7 +26,7 @@ class EventChooseAction implements IAction
 			} else {
 				// Event not found, ask user to input again
 				CacheManager::clearMessages($fbId);
-				ReplyManager::reply($fbId, "We can't find '[currentEvent]', please try another event name");
+				ReplyManager::reply($fbId, "We can't find '[current_event]', please try another event name");
 			}
 		} else {
 			// Provide user with their latest 5 events using quick replies

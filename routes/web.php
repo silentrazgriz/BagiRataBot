@@ -15,11 +15,17 @@ $app->get("/", function () use ($app) {
   return $app->version();
 });
 
+$app->group(["prefix" => "chat"], function() use ($app) {
+	$app->get("/", "CreateRequestController@index");
+	$app->post("message", "CreateRequestController@message");
+	$app->get("postback/{command}", "CreateRequestController@postback");
+	$app->get("quickreply/{command}/{text}", "CreateRequestController@quickreply");
+});
+
 $app->get("debug", function () use ($app) {
 	$cache = \App\Core\CacheManager::get("1139072729524249");
 	echo "<pre>";
 	print_r($cache->userProfile);
-	echo "$cache->";
 });
 
 $app->group(["prefix" => "messenger"], function() use ($app) {

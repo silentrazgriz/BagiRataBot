@@ -9,7 +9,6 @@ use App\Core\Actions\EventDetailAction;
 use App\Core\Actions\EventListAction;
 use App\Core\Actions\EventMenuAction;
 use App\Core\Actions\EventSummaryAction;
-use App\Core\Actions\GreetingAction;
 use App\Core\Actions\HelpAction;
 use App\Core\Actions\MainMenuAction;
 use App\Core\Actions\MemberAddAction;
@@ -38,6 +37,7 @@ class BotManager
 			new Command("help", new HelpAction()),
 			new Command("main_menu", new MainMenuAction()),
 			new Command("member_add", new MemberAddAction()),
+			new Command("member_add_another", new MemberAddAction()),
 			new Command("member_menu", new MemberMenuAction()),
 			new Command("member_remove", new MemberRemoveAction()),
 			new Command("transaction_create", new TransactionCreateAction()),

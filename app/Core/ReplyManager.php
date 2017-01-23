@@ -2,18 +2,26 @@
 namespace App\Core;
 
 
+use App\Models\Chat;
 use Illuminate\Support\Facades\Log;
 
 class ReplyManager
 {
 	public static function reply($fbId, $message)
 	{
-		ApiManager::sendMessage(ApiManager::makeMessage($fbId, self::replaceCodeInMessage($fbId, $message)));
+		//ApiManager::sendMessage(ApiManager::makeMessage($fbId, self::replaceCodeInMessage($fbId, $message)));
+		Chat::create([
+			"message" => self::replaceCodeInMessage($fbId, $message)
+		]);
 	}
 
 	public static function quickReply($fbId, $message, array $replies)
 	{
-		ApiManager::sendMessage(ApiManager::makeQuickReplyMessage($fbId, self::replaceCodeInMessage($fbId, $message), $replies));
+		//ApiManager::sendMessage(ApiManager::makeQuickReplyMessage($fbId, self::replaceCodeInMessage($fbId, $message), $replies));
+		Chat::create([
+			"quickReplies" => $replies,
+			"message" => self::replaceCodeInMessage($fbId, $message)
+		]);
 	}
 
 	private static function replaceCodeInMessage($fbId, $message)

@@ -22,9 +22,34 @@ class WebhookController extends Controller
 
 		return abort(403);
 	}
+
+	public function receiveDebug($data) {
+		Log::info("WebhookController::receiveDebug", ["content" => $data]);
+
+		$data = json_decode($data);
+		$manager = new BotManager();
+		if ($data->object == "page") {
+			foreach ($data->entry as $entry) {
+				foreach ($entry->messaging as $message) {
+					if (isset($message->message)) {
+						if (isset($message->message->quick_reply)) {
+							Log::info("Processing quick reply");
+							$manager->receiveQuickReply($message);
+						} else {
+							Log::info("Processing message");
+							$manager->receiveMessage($message);
+						}
+					} else if (isset($message->postback)) {
+						Log::info("Processing postback");
+						$manager->receivePostback($message);
+					}
+				}
+			}
+		}
+	}
 	
 	public function receiveMessage(Request $request) {
-		Log::info("Message received", ["content" => $request->getContent()]);
+		Log::info("WebhookController::receiveMessage", ["content" => $request->getContent()]);
 
 		try {
 			$data = json_decode($request->getContent());

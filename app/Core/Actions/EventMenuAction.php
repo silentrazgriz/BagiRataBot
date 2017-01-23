@@ -17,7 +17,8 @@ class EventMenuAction implements IAction
 			ApiManager::makeQuickReply("Transactions", "transaction_menu"),
 			ApiManager::makeQuickReply("Members", "member_menu"),
 			ApiManager::makeQuickReply("Event summary", "event_summary"),
-			ApiManager::makeQuickReply("Detail report", "event_detail")
+			ApiManager::makeQuickReply("Detailed report", "event_detail"),
+			ApiManager::makeQuickReply("Back to main menu", "main_menu")
 		];
 
 		CacheManager::clear($fbId);

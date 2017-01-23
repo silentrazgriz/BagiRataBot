@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCachesTable extends Migration
+class CreateChatTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,14 +13,10 @@ class CreateCachesTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('caches', function (Blueprint $table) {
+		Schema::create('chats', function (Blueprint $table) {
 			$table->increments('id');
-			$table->string('fbId')->unique();
-			$table->text('userProfile');
-			$table->string('currentEvent');
-			$table->string('command');
-			$table->text('messages');
-			$table->text('value');
+			$table->text('quickReplies');
+			$table->string('message');
 			$table->timestamps();
 		});
 	}
@@ -32,6 +28,6 @@ class CreateCachesTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('caches');
+		Schema::dropIfExists('chats');
 	}
 }
