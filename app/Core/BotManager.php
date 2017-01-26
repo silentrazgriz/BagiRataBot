@@ -40,6 +40,7 @@ class BotManager
 			new Command("member_add_another", new MemberAddAction()),
 			new Command("member_menu", new MemberMenuAction()),
 			new Command("member_remove", new MemberRemoveAction()),
+			new Command("member_remove_another", new MemberRemoveAction()),
 			new Command("transaction_create", new TransactionCreateAction()),
 			new Command("transaction_delete", new TransactionDeleteAction()),
 			new Command("transaction_menu", new TransactionMenuAction())
@@ -52,23 +53,27 @@ class BotManager
 
 		CacheManager::storeMessages($fbId, $data->message->text);
 		Log::info("Invoking command in message '" . $cache->command . "'");
-		$this->getAction($cache->command)->invoke($fbId);
+		$this->getAction($cache->command)->invoke($fbId, "message");
 	}
 
 	public function receiveQuickReply($data) {
 		$fbId = $data->sender->id;
 
 		CacheManager::storeMessages($fbId, $data->message->text);
+		CacheManager::storeCommand($fbId, $data->message->quick_reply->payload);
+
 		Log::info("Invoking command in quick_reply '" . $data->message->quick_reply->payload . "'");
-		$this->getAction($data->message->quick_reply->payload)->invoke($fbId);
+		$this->getAction($data->message->quick_reply->payload)->invoke($fbId, "quickReply");
 	}
 
 	public function receivePostback($data) {
 		$fbId = $data->sender->id;
 		$command = $this->getAction($data->postback->payload);
 		if ($command != null) {
+			CacheManager::storeCommand($fbId, $data->postback->payload);
+
 			Log::info("Invoking command in postback '" . $data->postback->payload . "'");
-			$command->invoke($fbId);
+			$command->invoke($fbId, "postback");
 		} else {
 			Log::error("BotManager::receivePostback", ["body" => json_encode($data)]);
 		}

@@ -73,7 +73,7 @@ class CacheManager
 
 	public static function clear($fbId) {
 		DB::transaction(function () use ($fbId) {
-			Cache::where("fbId", $fbId)->update(["command" => "", "messages" => "[]", "value" => "[]"]);
+			Cache::where("fbId", $fbId)->update(["messages" => "[]", "value" => "[]"]);
 		});
 	}
 

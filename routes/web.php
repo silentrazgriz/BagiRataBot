@@ -23,9 +23,11 @@ $app->group(["prefix" => "chat"], function() use ($app) {
 });
 
 $app->get("debug", function () use ($app) {
-	$cache = \App\Core\CacheManager::get("1139072729524249");
+	/*$cache = \App\Core\CacheManager::get("1139072729524249");
 	echo "<pre>";
-	print_r($cache->userProfile);
+	print_r($cache->userProfile);*/
+	print_r(json_encode(["tes", "tes12", "tes123"]));
+	print_r(json_encode(array_diff(["tes", "tes12", "tes123"], ["tes12"])));
 });
 
 $app->group(["prefix" => "messenger"], function() use ($app) {

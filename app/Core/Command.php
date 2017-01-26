@@ -1,7 +1,8 @@
 <?php
 namespace App\Core;
 
-use App\Core\Actions\IAction;
+
+use App\Core\Actions\Structures\IAction;
 
 class Command
 {
@@ -17,8 +18,8 @@ class Command
 		$this->action = $action;
  	}
 
-	public function invoke($fbId) {
-		$this->action->run($fbId);
+	public function invoke($fbId, $state) {
+		$this->action->{$state}($fbId);
 	}
 
 	public function isCommand($keyword) {

@@ -19,11 +19,11 @@
 		<p>Persistent Menu</p>
 		<a href="{{ url("chat/postback", "main_menu") }}">Main Menu Postback</a>
 		<a href="{{ url("chat/postback", "help") }}">Cancel Action</a>
-		<p>Main Menu Quick Reply</p>
-		<a href="{{ url("chat/quickreply", ["event_choose/Change_my_current_event"]) }}">Choose Event</a>
-		<a href="{{ url("chat/quickreply", ["event_create/Create_new_event"]) }}">New Event</a>
-		<a href="{{ url("chat/quickreply", ["event_delete/Forget_an_event"]) }}">Delete Event</a>
-		<a href="{{ url("chat/quickreply", ["event_list/See_my_events"]) }}">Show Event</a>
+		<!-- <p>Main Menu Quick Reply</p>
+		<a href="{{ url("chat/quickreply", ["event_choose", "Change_my_current_event"]) }}">Choose Event</a>
+		<a href="{{ url("chat/quickreply", ["event_create", "Create_new_event"]) }}">New Event</a>
+		<a href="{{ url("chat/quickreply", ["event_delete", "Forget_an_event"]) }}">Delete Event</a>
+		<a href="{{ url("chat/quickreply", ["event_list", "See_my_events"]) }}">Show Event</a>
 		<p>Event Menu Quick Reply</p>
 		<a href="{{ url("chat/quickreply", ["transaction_menu", "Transactions"]) }}">Transaction Menu</a>
 		<a href="{{ url("chat/quickreply", ["member_menu", "Members"]) }}">Member Menu</a>
@@ -35,7 +35,7 @@
 		<a href="{{ url("chat/quickreply", ["transaction_delete", "I_want_to_remove_a_transaction"]) }}">Delete Transaction</a>
 		<p>Member Menu Quick Reply</p>
 		<a href="{{ url("chat/quickreply", ["member_add", "My_friend_wants_to_join"]) }}">Add Member</a>
-		<a href="{{ url("chat/quickreply", ["member_remove", "Someone_is_leaving"]) }}">Delete Member</a>
+		<a href="{{ url("chat/quickreply", ["member_remove", "Someone_is_leaving"]) }}">Delete Member</a> -->
 		<form action="{{ url("chat/message") }}" method="POST">
 			<p>
 				Message: <input type="text" title="message" name="message"> <input type="submit" value="Send message">
